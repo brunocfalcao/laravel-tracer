@@ -2,11 +2,14 @@
 
 namespace Brunocfalcao\Tracer\Models;
 
-use Eduka\Abstracts\EdukaModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Eduka\Cube\Models\ApplicationLog;
 
-class Goal extends EdukaModel
+class Goal extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'attributes' => 'array',
     ];

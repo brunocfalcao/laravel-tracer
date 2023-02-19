@@ -1,16 +1,18 @@
 <p align="center"><img src="https://assets.waygou.com/zahper-github-header_v2.jpg" width="130"></p>
 
-## About Zahper
+## About Laravel Tracer
 
-Zahper is a [Laravel](https://www.laravel.com) *on-steroids* Mailable that lets you create beautiful cross-browser email newsletters using [MJML](https://mjml.io).
+Tracer is a [Laravel](https://www.laravel.com) visitors activity log that will give you a seamless way to log and track the activity of your site visitors.
 
-## Why Zahper
+## Why Tracer
 
-Zahper will solve you these problems:
-* Frustration of creating email templates, and at the end verifying they are not browser-compatible.
-* Annoyance of having to recreate email templates without a common base template structure to kick off.
-* Complexity of creating "view in browser" links, like having to create a db/file model for storage.
-* Rebuilding a Laravel package to send emails.
+Tracer will offer you
+* A seamless, one-line way to immediate integrate a visitors logging way into your new or existing web application/
+* Visitors automated logging, visit tracking logging conditionals, automated visitor goals tracking and much more.
+* Automated visitor geolocation recording using your web apps queues.
+* Web crawlers tracking and flagging in case you don't want to allow crawlers to access your application.
+* Events extension so you can take action on any step of the visitor's logging lifecycle.
+* Classes extensibility so you can add your own business logic on top of what was built.
 
 ## Zahper Features
 

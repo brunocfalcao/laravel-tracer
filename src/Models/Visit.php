@@ -2,17 +2,15 @@
 
 namespace Brunocfalcao\Tracer\Models;
 
-use Eduka\Abstracts\EdukaModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Eduka\Cube\Models\Affiliate;
 use Eduka\Cube\Models\ApplicationLog;
 use Eduka\Cube\Models\Course;
 use Eduka\Cube\Models\User;
-use Laravel\Paddle\Billable;
 
-class Visit extends EdukaModel
+class Visit extends Model
 {
-    use Billable;
-
     // Relationship verified.
     public function user()
     {
