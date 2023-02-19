@@ -2,12 +2,9 @@
 
 namespace Brunocfalcao\Tracer\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Eduka\Cube\Models\Affiliate;
-use Eduka\Cube\Models\ApplicationLog;
-use Eduka\Cube\Models\Course;
 use Eduka\Cube\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
@@ -18,35 +15,11 @@ class Visit extends Model
     }
 
     // Relationship verified.
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
-    }
-
-    // Relationship verified.
-    public function goal()
-    {
-        return $this->belongsTo(Goal::class);
-    }
-
-    // Relationship verified.
     public function affiliate()
     {
         return $this->belongsTo(Affiliate::class);
     }
 
-    // Relationship verified.
-    public function logs()
-    {
-        return $this->morphMany(ApplicationLog::class, 'causable');
-    }
-
-    /**
-     * Adds GeoData from the retrieved visit source.
-     *
-     * @param  array  $data
-     * @return void
-     */
     public function updateGeoData(array $data)
     {
         $this->continent = $data['continent'];

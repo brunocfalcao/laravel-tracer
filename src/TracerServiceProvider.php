@@ -2,7 +2,6 @@
 
 namespace Brunocfalcao\Tracer;
 
-use Brunocfalcao\Tracer\Tracer;
 use Illuminate\Support\ServiceProvider;
 
 class TracerServiceProvider extends ServiceProvider
@@ -30,9 +29,9 @@ class TracerServiceProvider extends ServiceProvider
         ]);
     }
 
-    protected function registerConfig(): void
+    protected function mergeConfig(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/tracer.php', 'tracer');
+        $this->mergeConfigFrom(__DIR__.'/../resources/overrides/config/laravel-tracer.php', 'laravel-tracer');
     }
 
     protected function registerTrace(): void
