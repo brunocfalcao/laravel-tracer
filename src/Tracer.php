@@ -7,8 +7,8 @@ class Tracer
         //
     }
 
-    public static function make(): self
+    public static function make(...$args): self
     {
-        return new self();
+        return new self(...$args);
     }
 }
