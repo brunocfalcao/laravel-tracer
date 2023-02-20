@@ -2,7 +2,6 @@
 
 namespace Brunocfalcao\Tracer;
 
-use Brunocfalcao\Tracer\Referrer;
 use Illuminate\Support\ServiceProvider;
 
 class TracerServiceProvider extends ServiceProvider
