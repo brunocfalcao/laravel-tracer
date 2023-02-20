@@ -6,14 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        /**
-         * Schema table creation of the visits table.
-         */
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
 
@@ -24,19 +18,6 @@ return new class extends Migration
             $table->foreignId('user_id')
                   ->nullable()
                   ->comment('Relatable user id, if existing');
-
-            $table->foreignId('course_id')
-                  ->nullable()
-                  ->default(null)
-                  ->comment('Related course id in case it exists');
-
-            $table->foreignId('goal_id')
-                  ->nullable()
-                  ->comment('If a goal (E.g.: "course bought") is achieved, is it written here');
-
-            $table->foreignId('affiliate_id')
-                  ->nullable()
-                  ->comment('Affilate related id, if exists and is connected to via referrer data. Session persisted');
 
             $table->string('url')
                   ->comment('The full qualified url path, with querystrings');

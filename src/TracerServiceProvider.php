@@ -2,6 +2,7 @@
 
 namespace Brunocfalcao\Tracer;
 
+use Brunocfalcao\Tracer\Referrer;
 use Illuminate\Support\ServiceProvider;
 
 class TracerServiceProvider extends ServiceProvider
@@ -14,6 +15,7 @@ class TracerServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->registerClasses();
         $this->mergeConfig();
     }
 
@@ -34,10 +36,14 @@ class TracerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../resources/overrides/config/laravel-tracer.php', 'laravel-tracer');
     }
 
-    protected function registerTrace(): void
+    protected function registerClasses(): void
     {
-        $this->app->singleton(Tracer::class, function () {
+        $this->app->bind('tracer-visit', function () {
             return Tracer::make();
+        });
+
+        $this->app->bind('tracer-referrer', function () {
+            return Referrer::make();
         });
     }
 }
