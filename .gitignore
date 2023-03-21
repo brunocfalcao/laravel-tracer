@@ -21,3 +21,12 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+database/migrations/2023_02_19_092345_create_tracer_schema.php
+resources/overrides/config/laravel-tracer.php
+src/Facades/Referrer.php
+src/Facades/Tracer.php
+src/Middleware/VisitTracing.php
+src/Models/Visit.php
+src/Referrer.php
+src/Tracer.php
+src/TracerServiceProvider.php
