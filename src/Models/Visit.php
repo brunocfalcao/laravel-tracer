@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
-    // Relationship verified.
     public function user()
     {
         return $this->belongsTo(app('config')->get('laravel-tracer.user'));

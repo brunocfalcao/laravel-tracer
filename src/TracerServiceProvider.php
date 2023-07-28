@@ -2,6 +2,7 @@
 
 namespace Brunocfalcao\Tracer;
 
+use Brunocfalcao\Tracer\Middleware\VisitTracing;
 use Illuminate\Support\ServiceProvider;
 
 class TracerServiceProvider extends ServiceProvider
@@ -44,5 +45,14 @@ class TracerServiceProvider extends ServiceProvider
         $this->app->bind('tracer-referrer', function () {
             return Referrer::make();
         });
+    }
+
+    protected function registerMiddleware()
+    {
+        $this->app['router']
+             ->aliasMiddleware(
+                 'tracer-visit',
+                 VisitTracing::class
+             );
     }
 }
