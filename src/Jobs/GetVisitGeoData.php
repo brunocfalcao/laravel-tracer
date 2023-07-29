@@ -2,35 +2,39 @@
 
 namespace QRFeedz\Analytics\Jobs;
 
+use Brunocfalcao\LaravelTracer\Models\Visit;
 use Brunocfalcao\Logger\Facades\ApplicationLog;
-use Illuminate\Support\Facades\Http;
-use QRFeedz\Analytics\Models\Visit;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 
+/**
+ * This job runs on a scheduled cron job, via a command called
+ * tracer:get-geo-data that will fetch all the lines that have
+ * nullable geo data, and tries to update that data.
+ */
 class GetVisitGeoData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $hash;
+    public $visitId;
 
-    public $ip;
-
-    public function __construct(string $hash, string $ip)
+    public function __construct(int $visitId)
     {
-        $this->hash = $hash;
-        $this->ip = $ip == '127.0.0.1' ?
-                           '188.62.12.60' : // Just to get a swiss public ip.
-                           $ip;
+        $this->visitId = $visitId;
     }
 
     public function handle()
     {
+        $visit = Visit::find($visitId);
+
         // Make the API call with a specific number of fields.
-        $response = Http::get('http://ip-api.com/json/'.$this->ip.'?fields=12108287')
+        $response = Http::get('http://ip-api.com/json/' .
+                            $this->visit->ip.'?fields=12108287')
                         ->json();
 
         if ($response['status'] == 'success') {
@@ -43,5 +47,15 @@ class GetVisitGeoData implements ShouldQueue
                           ->group('error-system')
                           ->log('Visit geocode error');
         }
+    }
+
+    public function middleware()
+    {
+        return [new WithoutOverlapping($this->visitId)];
+    }
+
+    public function onQueue()
+    {
+        return config('laravel-tracer.queue', 'default');
     }
 }

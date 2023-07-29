@@ -2,8 +2,25 @@
 
 return [
 
-    'dns' => [
+    /**
+     * The queue name where the jobs should run.
+     */
+    'queue' => env('LARAVEL_TRACER_QUEUE_NAME', 'default'),
 
+    /*
+     * By default, the user model is connected to your default user providers
+     * authenticaton model class. You can change to your own users class or
+     * keep it like it is.
+     *
+     * E.g.: \App\Models\User::class
+     */
+    'user' => config('auth.providers.users.model'),
+
+    /*
+     * What DNS servers should be used to check if an ip is blacklisted. The
+     * more servers you have, the higher is the chance of false positive ips.
+     */
+    'dns' => [
         'blacklist_servers' => [
             'dnsbl-1.uceprotect.net',
             'dnsbl-2.uceprotect.net',
@@ -18,7 +35,7 @@ return [
 
     'goals' => [
 
-        //Brunocfalcao\LaravelTracer\Goals\NthVisit::class,
+        //Brunocfalcao\Tracer\Goals\NthVisit::class,
 
         /*
          * 1st-time: A visitor that visited, once, the website
