@@ -1,11 +1,11 @@
 <?php
 
-namespace Brunocfalcao\Tracer;
+namespace Brunocfalcao\LaravelTracer;
 
-use Brunocfalcao\Tracer\Middleware\VisitTracing;
+use Brunocfalcao\LaravelTracer\Middleware\VisitTracing;
 use Illuminate\Support\ServiceProvider;
 
-class TracerServiceProvider extends ServiceProvider
+class LaravelTracerServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
@@ -39,7 +39,7 @@ class TracerServiceProvider extends ServiceProvider
     protected function registerClasses(): void
     {
         $this->app->bind('tracer-visit', function () {
-            return Tracer::make();
+            return LaravelTracer::make();
         });
 
         $this->app->bind('tracer-referrer', function () {

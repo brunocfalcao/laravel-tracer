@@ -1,14 +1,14 @@
 <?php
 
-namespace Brunocfalcao\Tracer;
+namespace Brunocfalcao\LaravelTracer;
 
 use Brunocfalcao\Cerebrus\ConcernsSessionPersistence;
-use Brunocfalcao\Tracer\Models\Visit;
+use Brunocfalcao\LaravelTracer\Models\Visit;
 use Illuminate\Support\Facades\Route;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Jenssegers\Agent\Facades\Agent;
 
-class Tracer
+class LaravelTracer
 {
     use ConcernsSessionPersistence;
 
@@ -28,7 +28,7 @@ class Tracer
      * we don't evaluate the session data, we just overwrite
      * it each time we record a new visit instance.
      *
-     * @return Brunocfalcao\Tracer\Models\Visit
+     * @return Brunocfalcao\LaravelTracer\Models\Visit
      */
     public function record()
     {
@@ -48,7 +48,7 @@ class Tracer
      * Computes a new visit instance, saves in session, and returns the
      * model instance.
      *
-     * @return \Brunocfalcao\Tracer\Models\Visit
+     * @return \Brunocfalcao\LaravelTracer\Models\Visit
      */
     protected function newInstance()
     {

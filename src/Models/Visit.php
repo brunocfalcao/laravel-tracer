@@ -1,6 +1,6 @@
 <?php
 
-namespace Brunocfalcao\Tracer\Models;
+namespace Brunocfalcao\LaravelTracer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Brunocfalcao\\Tracer\\": "src/"
+            "Brunocfalcao\\LaravelTracer\\": "src/"
         }
     },
     "config": {
@@ -34,11 +34,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Brunocfalcao\\Tracer\\TracerServiceProvider"
+                "Brunocfalcao\\LaravelTracer\\LaravelTracerServiceProvider"
             ],
             "aliases": {
-                "Tracer": "Brunocfalcao\\Tracer\\Facades\\Tracer",
-                "Referrer": "Brunocfalcao\\Tracer\\Facades\\Referrer"
+                "Tracer": "Brunocfalcao\\LaravelTracer\\Facades\\LaravelTracer",
+                "Referrer": "Brunocfalcao\\LaravelTracer\\Facades\\Referrer"
             }
         }
     }
