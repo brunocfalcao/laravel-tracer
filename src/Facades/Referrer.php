@@ -1,6 +1,6 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer\Facades;
+namespace Brunocfalcao\Tracer\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -11,6 +11,6 @@ class Referrer extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'laravel-tracer-referrer';
+        return 'tracer-referrer';
     }
 }

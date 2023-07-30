@@ -1,8 +1,8 @@
 <?php
 
-namespace QRFeedz\Analytics\Jobs;
+namespace QRFeedz\Tracer\Jobs;
 
-use Brunocfalcao\LaravelTracer\Models\Visit;
+use Brunocfalcao\Tracer\Models\Visit;
 use Brunocfalcao\Logger\Facades\ApplicationLog;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,6 +26,8 @@ class GetVisitGeoData implements ShouldQueue
     public function __construct(int $visitId)
     {
         $this->visitId = $visitId;
+
+        $this->onQueue(config('tracer.queue', 'default'));
     }
 
     public function handle()
@@ -52,10 +54,5 @@ class GetVisitGeoData implements ShouldQueue
     public function middleware()
     {
         return [new WithoutOverlapping($this->visitId)];
-    }
-
-    public function onQueue()
-    {
-        return config('laravel-tracer.queue', 'default');
     }
 }

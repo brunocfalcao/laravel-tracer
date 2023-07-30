@@ -1,14 +1,14 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer;
+namespace Brunocfalcao\Tracer;
 
 use Brunocfalcao\Cerebrus\ConcernsSessionPersistence;
-use Brunocfalcao\LaravelTracer\Models\Visit;
+use Brunocfalcao\Tracer\Models\Visit;
 use Illuminate\Support\Facades\Route;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Jenssegers\Agent\Facades\Agent;
 
-class LaravelTracer
+class Tracer
 {
     use ConcernsSessionPersistence;
 
@@ -28,7 +28,7 @@ class LaravelTracer
      * we don't evaluate the session data, we just overwrite
      * it each time we record a new visit instance.
      *
-     * @return Brunocfalcao\LaravelTracer\Models\Visit
+     * @return Brunocfalcao\Tracer\Models\Visit
      */
     public function record()
     {
@@ -48,7 +48,7 @@ class LaravelTracer
      * Computes a new visit instance, saves in session, and returns the
      * model instance.
      *
-     * @return \Brunocfalcao\LaravelTracer\Models\Visit
+     * @return \Brunocfalcao\Tracer\Models\Visit
      */
     protected function newInstance()
     {
@@ -72,7 +72,6 @@ class LaravelTracer
 
         // Check the campaign, an referrer data.
         $referrer = app('tracer-referrer')->get();
-
         $visit->referrer_utm_source = $referrer->utm_source;
         $visit->referrer_domain = $referrer->domain;
 

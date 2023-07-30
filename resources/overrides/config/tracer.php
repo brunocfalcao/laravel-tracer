@@ -5,7 +5,7 @@ return [
     /**
      * The queue name where the jobs should run.
      */
-    'queue' => env('LARAVEL_TRACER_QUEUE_NAME', 'default'),
+    'queue' => env('TRACER_QUEUE_NAME', 'default'),
 
     /*
      * By default, the user model is connected to your default user providers

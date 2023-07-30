@@ -1,6 +1,6 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer\Middleware;
+namespace Brunocfalcao\Tracer\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

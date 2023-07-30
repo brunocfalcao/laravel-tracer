@@ -1,16 +1,17 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer;
+namespace Brunocfalcao\Tracer;
 
-use Brunocfalcao\LaravelTracer\Middleware\VisitTracing;
+use Brunocfalcao\Tracer\Commands\GetGeoDataCommand;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelTracerServiceProvider extends ServiceProvider
+class TracerServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->loadMigrations();
         $this->publishResources();
+        $this->registerCommands();
     }
 
     public function register(): void
@@ -33,13 +34,13 @@ class LaravelTracerServiceProvider extends ServiceProvider
 
     protected function mergeConfig(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../resources/overrides/config/laravel-tracer.php', 'laravel-tracer');
+        $this->mergeConfigFrom(__DIR__.'/../resources/overrides/config/tracer.php', 'laravel-tracer');
     }
 
     protected function registerClasses(): void
     {
         $this->app->bind('tracer-visit', function () {
-            return LaravelTracer::make();
+            return Tracer::make();
         });
 
         $this->app->bind('tracer-referrer', function () {
@@ -47,12 +48,10 @@ class LaravelTracerServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerMiddleware()
+    protected function registerCommands()
     {
-        $this->app['router']
-             ->aliasMiddleware(
-                 'tracer-visit',
-                 VisitTracing::class
-             );
+        $this->commands([
+            GetGeoDataCommand::class,
+        ]);
     }
 }

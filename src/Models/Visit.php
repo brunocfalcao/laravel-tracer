@@ -1,6 +1,6 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer\Models;
+namespace Brunocfalcao\Tracer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +8,7 @@ class Visit extends Model
 {
     public function user()
     {
-        return $this->belongsTo(app('config')->get('laravel-tracer.user'));
+        return $this->belongsTo(app('config')->get('tracer.user'));
     }
 
     public function updateGeoData(array $data)

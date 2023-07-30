@@ -1,6 +1,6 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer;
+namespace Brunocfalcao\Tracer;
 
 use Brunocfalcao\Cerebrus\ConcernsSessionPersistence;
 

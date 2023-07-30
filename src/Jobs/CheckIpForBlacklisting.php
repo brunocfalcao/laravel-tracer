@@ -1,8 +1,8 @@
 <?php
 
-namespace Brunocfalcao\LaravelTracer\Jobs;
+namespace Brunocfalcao\Tracer\Jobs;
 
-use Brunocfalcao\LaravelTracer\Models\IpAddress;
+use Brunocfalcao\Tracer\Models\IpAddress;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,7 +32,7 @@ class CheckIpForBlacklisting implements ShouldQueue
      */
     public function handle()
     {
-        $dnsLookups = config('qrfeedz.analytics.dns.blacklist_servers');
+        $dnsLookups = config('tracer.dns.blacklist_servers');
 
         $reverseIp = implode('.', array_reverse(explode('.', $this->ip)));
 
