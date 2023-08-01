@@ -15,10 +15,6 @@ return new class extends Migration
                   ->nullable()
                   ->comment('Session id (php session id) from the visit source');
 
-            $table->foreignId('user_id')
-                  ->nullable()
-                  ->comment('Relatable user id, if existing');
-
             $table->string('url')
                   ->comment('The full qualified url path, with querystrings');
 
@@ -43,9 +39,6 @@ return new class extends Migration
 
             $table->boolean('is_bot')
                   ->default(false);
-
-            $table->ipAddress('ip')
-                  ->nullable();
 
             $table->string('hash') // GDPR reasons. Identifies a visit source.
                   ->nullable()

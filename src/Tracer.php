@@ -57,7 +57,6 @@ class Tracer
         $visit->url = request()->fullUrl();
         $visit->path = request()->path();
         $visit->route_name = Route::currentRouteName();
-        $visit->ip = $this->ip();
 
         // Create an unique hashcode. GDPA related.
         $visit->hash = md5(request()->ip().
@@ -72,6 +71,7 @@ class Tracer
 
         // Check the campaign, an referrer data.
         $referrer = app('tracer-referrer')->get();
+
         $visit->referrer_utm_source = $referrer->utm_source;
         $visit->referrer_domain = $referrer->domain;
 

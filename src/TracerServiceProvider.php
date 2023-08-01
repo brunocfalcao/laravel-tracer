@@ -3,6 +3,8 @@
 namespace Brunocfalcao\Tracer;
 
 use Brunocfalcao\Tracer\Commands\GetGeoDataCommand;
+use Brunocfalcao\Tracer\Models\Visit;
+use Brunocfalcao\Tracer\Observers\VisitObserver;
 use Illuminate\Support\ServiceProvider;
 
 class TracerServiceProvider extends ServiceProvider
@@ -11,13 +13,18 @@ class TracerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->publishResources();
-        $this->registerCommands();
+        $this->registerObservers();
     }
 
     public function register(): void
     {
         $this->registerClasses();
         $this->mergeConfig();
+    }
+
+    protected function registerObservers()
+    {
+        Visit::observe(VisitObserver::class);
     }
 
     protected function loadMigrations(): void
@@ -46,12 +53,5 @@ class TracerServiceProvider extends ServiceProvider
         $this->app->bind('tracer-referrer', function () {
             return Referrer::make();
         });
-    }
-
-    protected function registerCommands()
-    {
-        $this->commands([
-            GetGeoDataCommand::class,
-        ]);
     }
 }
