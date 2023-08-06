@@ -36,18 +36,20 @@ class GetVisitGeoDataJob implements ShouldQueue
     {
         $visit = Visit::find($this->visitId);
 
+        if ($visit) {
         // Make the API call with a specific number of fields.
-        try {
-            $response = Http::get('http://ip-api.com/json/' .
+            try {
+                $response = Http::get('http://ip-api.com/json/' .
                                 $this->ip .
                                 '?fields=12108287')
                         ->json();
 
-            if ($response['status'] == 'success') {
-                $visit->updateGeoData($response);
-            };
-        } catch (\Exception $ex) {
-            $this->release(60);
+                if ($response['status'] == 'success') {
+                    $visit->updateGeoData($response);
+                };
+            } catch (\Exception $ex) {
+                $this->release(60);
+            }
         }
     }
 }
