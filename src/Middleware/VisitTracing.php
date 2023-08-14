@@ -9,7 +9,7 @@ class VisitTracing
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!app()->runningInConsole()) {
+        if (! app()->runningInConsole()) {
             app('tracer-visit')->record();
         }
 

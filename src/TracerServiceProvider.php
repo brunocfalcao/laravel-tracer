@@ -2,7 +2,6 @@
 
 namespace Brunocfalcao\Tracer;
 
-use Brunocfalcao\Tracer\Commands\GetGeoDataCommand;
 use Brunocfalcao\Tracer\Models\Visit;
 use Brunocfalcao\Tracer\Observers\VisitObserver;
 use Illuminate\Support\ServiceProvider;
