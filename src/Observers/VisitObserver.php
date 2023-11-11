@@ -12,7 +12,7 @@ class VisitObserver
     {
         // Hashing visit information for GDPR reasons.
         $visit->hash = md5(
-            request()->ip2().
+            request()->public_ip().
             Agent::platform().
             Agent::device()
         );
@@ -20,6 +20,6 @@ class VisitObserver
 
     public function created(Visit $visit)
     {
-        GetVisitGeoDataJob::dispatch($visit->id, request()->ip2());
+        GetVisitGeoDataJob::dispatch($visit->id, request()->public_ip());
     }
 }
