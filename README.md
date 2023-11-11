@@ -1,324 +1,399 @@
-<p align="center"><img src="https://assets.waygou.com/zahper-github-header_v2.jpg" width="130"></p>
+# Unobstrusively visitors tracing for your Laravel app
 
-## About Laravel Tracer
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/brunocfalcao/laravel-tracer.svg?style=flat-square)](https://packagist.org/packages/brunocfalcao/laravel-tracer)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/brunocfalcao/laravel-tracer/run-tests.yml?branch=main&label=tests&style=flat-square)
+![Check & fix styling](https://github.com/brunocfalcao/laravel-tracer/workflows/Check%20&%20fix%20styling/badge.svg)
+[![Total Downloads](https://img.shields.io/packagist/dt/brunocfalcao/laravel-tracer.svg?style=flat-square)](https://packagist.org/packages/brunocfalcao/laravel-tracer)
 
-Tracer is a [Laravel](https://www.laravel.com) visitors activity log that will give you a seamless way to log and track the activity of your site visitors.
+By default, all scripts on a webpage are allowed to send and fetch data to any site they want. This can be a security problem. Imagine one of your JavaScript dependencies sends all keystrokes, including passwords, to a third party website.
 
-## Why Tracer
+It's very easy for someone to hide this malicious behaviour, making it nearly impossible for you to detect it (unless you manually read all the JavaScript code on your site). For a better idea of why you really need to set content security policy headers, read [this excellent blog post](https://medium.com/hackernoon/im-harvesting-credit-card-numbers-and-passwords-from-your-site-here-s-how-9a8cb347c5b5) by [David Gilbertson](https://twitter.com/D__Gilbertson).
 
-Tracer will offer you
-* A seamless, one-line way to immediate integrate a visitors logging way into your new or existing web application/
-* Visitors automated logging, visit tracking logging conditionals, automated visitor goals tracking and much more.
-* Automated visitor geolocation recording using your web apps queues.
-* Web crawlers tracking and flagging in case you don't want to allow crawlers to access your application.
-* Events extension so you can take action on any step of the visitor's logging lifecycle.
-* Classes extensibility so you can add your own business logic on top of what was built.
+Setting Content Security Policy headers helps solve this problem. These headers dictate which sites your site is allowed to contact. This package makes it easy for you to set the right headers.
 
-## Zahper Features
+This readme does not aim to fully explain all the possible usages of CSP and its directives. We highly recommend that you read [Mozilla's documentation on the Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) before using this package. Another good resource to learn about CSP, is [this edition of the Larasec newsletter](https://larasec.substack.com/p/in-depth-content-security-policy) by Stephen Rees-Carter.
 
-You get all of this out-of-the-box:
-* Build your MJML template in an eloquent way, directly on your Mailable class, using all the MJML features and components.
-* Automated MJML to Blade view compilation via the [MJML Api](https://mjml.io/api).
-* Caching mechanism, so you don't make 500 Api calls, when you send 500 emails.
-* Automatic "view in browser" link generation, in case you want to redirect your users to view the email in the browser.
-* High customizable (storage and views cache, image rendering types, etc) via a config file.
-* Automatic image [CID / URL](https://laravel.com/docs/7.x/mail#inline-attachments) rendering.
-* Already being used in [masteringnova.com](https://www.masteringnova.com), [Laraning](https://www.laraning.com) and [Laraflash](https://www.laraflash.com).
-* You can also use the full original Mailable class capabilites since Zahper inherits from the Laravel [Mailable](https://laravel.com/docs/7.x/mail) class.
+
+## Support us
+
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-csp.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-csp)
+
+We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+
+We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
-You can install Zahper via composer using this command:
+You can install the package via composer:
 
 ```bash
-composer require brunocfalcao/zahper
+composer require brunocfalcao/laravel-tracer
 ```
 
-###### The package will automatically register the service provider (using [auto-discover](https://laravel-news.com/package-auto-discovery)).
-
-Next step is to publish your zahper.php configuration.
+You can publish the config-file with:
 
 ```bash
-php artisan vendor:publish --tag=zahper-config
+php artisan vendor:publish --tag=csp-config
 ```
 
-Final step is to install your mjml.io api keys in your .ENV configuration.
-
-```bash
-ZAHPER_API_URL=https://api.mjml.io/v1/render
-ZAHPER_API_APPLICATION_ID=<your application id>
-ZAHPER_API_SECRET_KEY=<your secret key>
-```
-##### :point_right: You need to register for the Api keys for your [MJML api application here](https://mjml.io/api/). It's free.
-
-## No time to wait?
-
-After having your api keys in your .ENV file, just do this for a quick email demo:
-
-Run the following artisan command:
-```bash
-php artisan zahper:demo
-```
-
-Navigate in your local laravel app to the url /zahper/demo. [Et voilá](https://www.deepl.com/translator#fr/en/et%20voil%C3%A1!%7CThere%20you%20go.), you should see a mailable demo.
-
-<p align="center"><img src="https://assets.waygou.com/zahper-demo.jpg" width="500px"></p>
-
-## How it works
-
-Zahper uses the power of MJML syntax to render an HTML email that will be cross-browser compatible. To do this, you first need to learn MJML, and believe me it's pretty straight forward. You can check the [documentation here](https://mjml.io/documentation/).
-
-Additionally it leverages the full features of the Laravel Mailable that you can use. So, it's 100% compatible with any Mailable-based codebase you did.
-
-## How to use Zahper
-
-
-1. Start by creating your zahper mailable using the following example:
-```bash
-php artisan zahper:mailable WelcomeMailable
-```
-
-> This command will create your new mailable in the app\Mail folder.
-
-2. Inside your zahper mailable, you have the following methods:
+This is the contents of the file which will be published at `config/csp.php`:
 
 ```php
-    public function __construct()
-    {
-        // --- Zahper code ---
-        ZahperTemplate::$cache = false;
-        // [...]
-        // --- /Zahper code ---
-    }
+return [
+
+    /*
+     * A policy will determine which CSP headers will be set. A valid CSP policy is
+     * any class that extends `Spatie\Csp\Policies\Policy`
+     */
+    'policy' => Spatie\Csp\Policies\Basic::class,
+
+    /*
+     * This policy which will be put in report only mode. This is great for testing out
+     * a new policy or changes to existing csp policy without breaking anything.
+     */
+    'report_only_policy' => '',
+
+    /*
+     * All violations against the policy will be reported to this url.
+     * A great service you could use for this is https://report-uri.com/
+     *
+     * You can override this setting by calling `reportTo` on your policy.
+     */
+    'report_uri' => env('CSP_REPORT_URI', ''),
+
+    /*
+     * Headers will only be added if this setting is set to true.
+     */
+    'enabled' => env('CSP_ENABLED', true),
+
+    /*
+     * The class responsible for generating the nonces used in inline tags and headers.
+     */
+    'nonce_generator' => Spatie\Csp\Nonce\RandomString::class,
+];
 ```
-The $cache static attribute will allow you to cache your MJML compiled view, so in case you have 500 emails to be sent, you don't call the MJML api 500 times. You should make it false until you tested your newsletter and finally turn it true when you decide to use it in your website. More about the cache later in this readme.
+
+You can add CSP headers to all responses of your app by registering `Spatie\Csp\AddCspHeaders::class` in the http kernel.
 
 ```php
-    protected function template()
-    {
-        $mjml = ZahperComponent::make();
+// app/Http/Kernel.php
 
-        $head = $mjml->with('mj-head');
-        // $head->with(...)
+...
 
-        $body = $mjml->with('mj-body');
-        // $body->with(...)
-
-        return $mjml;
-    }
-```
-This is where the magic happens. You will write your MJML and Zahper will call the MJML api to compile it to a view.
-As a quick example (more examples later in this readme) the following MJML:
-
-```mjml
-    <mj-section>
-        <mj-column>
-            <mj-text>Hi there!</mj-text>
-        </mj-column>
-    </mj-section>
+protected $middlewareGroups = [
+   'web' => [
+       ...
+       \Spatie\Csp\AddCspHeaders::class,
+   ],
 ```
 
-is written in Zahper like this:
+Alternatively you can apply the middleware on the route or route group level.
 
 ```php
-    $section = ZahperComponent::make('mj-section')
-               ->with('mj-column')
-                   ->with('mj-text', 'Hi there!');
-
+// in a routes file
+Route::get('my-page', 'MyController')->middleware(Spatie\Csp\AddCspHeaders::class);
 ```
 
-and the final method:
+You can also pass a policy class as a parameter to the middleware:
 
 ```php
-    public function build()
+// in a routes file
+Route::get('my-page', 'MyController')->middleware(Spatie\Csp\AddCspHeaders::class . ':' . MyPolicy::class);
+```
+
+The given policy will override the one configured in the config file for that specific route or group of routes.
+
+## Usage
+
+This package allows you to define CSP policies. A CSP policy determines which CSP directives will be set in the headers of the response.
+
+An example of a CSP directive is `script-src`. If this has the value `'self' www.google.com` then your site can only load scripts from it's own domain or `www.google.com`. You'll find [a list with all CSP directives](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/#Directives) at Mozilla's excellent developer site.
+
+According to the spec certain directive values need to be surrounded by quotes. Examples of this are `'self'`, `'none'` and `'unsafe-inline'`. When using `addDirective` function you're not required to surround the directive value with quotes manually. We will automatically add quotes. Script/style hashes, as well, will be auto-detected and surrounded with quotes.
+
+```php
+// in a policy
+...
+   ->addDirective(Directive::SCRIPT, Keyword::SELF) // will output `'self'` when outputting headers
+   ->addDirective(Directive::STYLE, 'sha256-hash') // will output `'sha256-hash'` when outputting headers
+...
+```
+
+You can add multiple policy options in the same directive giving an array as second parameter to `addDirective` or a single string in which every option is separated by one or more spaces.
+
+```php
+// in a policy
+...
+   ->addDirective(Directive::SCRIPT, [
+       Keyword::STRICT_DYNAMIC,
+       Keyword::SELF,
+       'www.google.com',
+   ])
+   ->addDirective(Directive::SCRIPT, 'strict-dynamic self  www.google.com')
+   // will both output `'strict_dynamic' 'self' www.google.com` when outputting headers
+...
+```
+
+There are also a few cases where you don't have to or don't need to specify a value, eg. upgrade-insecure-requests, block-all-mixed-content, ... In this case you can use the following value:
+
+```php
+// in a policy
+...
+    ->addDirective(Directive::UPGRADE_INSECURE_REQUESTS, Value::NO_VALUE)
+    ->addDirective(Directive::BLOCK_ALL_MIXED_CONTENT, Value::NO_VALUE);
+...
+```
+
+This will output a CSP like this:
+```
+Content-Security-Policy: upgrade-insecure-requests;block-all-mixed-content
+```
+
+### Creating policies
+
+In the `policy` key of the `csp` config file is set to `\Spatie\Csp\Policies\Basic::class` by default. This class allows your site to only use images, scripts, form actions of your own site. This is how the class looks:
+
+```php
+namespace App\Support;
+
+use Spatie\Csp\Directive;
+use Spatie\Csp\Value;
+
+class Basic extends Policy
+{
+    public function configure()
     {
         $this
-            ->from(
-                'you@example.com',
-                'You from Example.com'
-            )
-            ->subject('Nice subject out here!');
-
-        parent::build();
+            ->addDirective(Directive::BASE, Keyword::SELF)
+            ->addDirective(Directive::CONNECT, Keyword::SELF)
+            ->addDirective(Directive::DEFAULT, Keyword::SELF)
+            ->addDirective(Directive::FORM_ACTION, Keyword::SELF)
+            ->addDirective(Directive::IMG, Keyword::SELF)
+            ->addDirective(Directive::MEDIA, Keyword::SELF)
+            ->addDirective(Directive::OBJECT, Keyword::NONE)
+            ->addDirective(Directive::SCRIPT, Keyword::SELF)
+            ->addDirective(Directive::STYLE, Keyword::SELF)
+            ->addNonceForDirective(Directive::SCRIPT)
+            ->addNonceForDirective(Directive::STYLE);
     }
+}
 ```
 
-Is used to configure your Mailable "from" recipient and the subject.
-
-:point_up: All the Laravel Mailable features are available for you, except the "build" method. As example, you can pass public attributes, and they will also be available in the MJML rendered view!
-
-## How do you code the MJML
-
-Coding your MJML is made in a very natural way.
-
-1. You create the component:
+You can allow fetching scripts from `www.google.com` by extending this class:
 
 ```php
-    $body = ZahperComponent::make('mj-section');
-```
+namespace App\Support;
 
-2. You then add all your attributes in 2 ways, as example:
+use Spatie\Csp\Directive;
+use Spatie\Csp\Policies\Basic;
 
-```php
-    $body->align('center')
-
-    or
-
-    $body = ZahperComponent::make('mj-section', ['align' => 'center');
-```
-
-Let's see another examples, so you can learn it better:
-
-```mjml
-    <mj-section padding="40px" background-color="#FFFFFF">
-        <mj-column>
-            <mj-text align="center" color="#1a202c" font-size="20px">Hey there!</mj-text>
-        </mj-column>
-    </mj-section>
-```
-
-is written like:
-
-```php
-    $section = ZahperComponent::make('mj-section')
-               ->padding('40px')
-               ->backgroundColor('#FFFFFF')
-                   ->with('mj-column')
-                       ->with('mj-text', 'Hey there!')
-                           ->align('center')
-                           ->color('#1A202C')
-                           ->fontSize('20px')
-```
-
-The coding way is "natural". Meaning you create your component, then if you want to add a child component you use the ->with(), and if you want to pass properties, you just keep adding them as methods. You just need to respect that attribute name convention, like "background-color" should be ->backgroundColor(). And that's it ! Zahper then converts it to a pure MJML, calls the MJML Api to convert it to a blade view, and calls the ->build() Mailable method!
-
-:question: What happens if you want to code 2 columns?
-
-Simple. You have a ->parent() method that will point one level up in the MJML hierarchy :blush:
-
-```mjml
-    <mj-section padding="40px" background-color="#FFFFFF">
-        <mj-column>
-            <mj-text>First Column</mj-text>
-        </mj-column>
-        <mj-column>
-            <mj-text>Second Column</mj-text>
-        </mj-column>
-    </mj-section>
-```
-
-is written like:
-
-```php
-    $section = ZahperComponent::make('mj-section')
-                   ->with('mj-column')
-                       ->with('mj-text', 'First Column')
-                           ->parent()
-                       ->parent()
-                   ->with('mj-column')
-                       ->with('mj-text', 'Second Column');
-```
-
-## Caching strategy
-
-Zahper needs to have a caching strategy since when you are sending a high volume of emails we cannot just call the MJML Api to convert the same MJML over and over. You can suddenly see your MJML Api account blocked in case spikes occur. So, Zahper allows you to cache your blade view so the next time the same Mailable class is called it doesn't recompile the mjml, but just uses the cached view content.
-
-### Things you need to pay attention
-
-#### Activating the Zahper Mailable cache
-
-The way you turn on, or off the Mailable cache is in your generated Zahper Mailable, in the construct() method:
-
-```php
-    public function __construct()
+class MyCustomPolicy extends Basic
+{
+    public function configure()
     {
-        // --- Zahper code ---
-        ZahperTemplate::$cache = false;
-        // [...]
-        // --- /Zahper code ---
+        parent::configure();
+
+        $this->addDirective(Directive::SCRIPT, 'www.google.com');
     }
+}
 ```
 
-:exclamation: Keep it off until you have your newsletter structure all fine tuned. Then you turn it on and the MJML Api, for this Mailable, will not be called again until you turn it on again.
+Don't forget to set the `policy` key in the `csp` config file to the class name of your policy (in this case it would be `App\Services\Csp\Policies\MyCustomPolicy`).
 
-#### Using dynamic values on your Zahper Mailable
+### Using inline scripts and styles
 
-Let's say you want to have, for instance, a dynamic URL in a Button href attribute with a distinct user id per email.
+When using CSP you must specifically allow the use of inline scripts or styles. The recommended way of doing that with this package is to use a `nonce`. A nonce is a number that is unique per request. The nonce must be specified in the CSP headers and in an attribute on the html tag. This way an attacker has no way of injecting malicious scripts or styles.
 
-```mjml
-    <mj-button href="{{ route('welcome', ['user_id' => $id]) }}">Click here to Browse</mj-button>
-```
-
-You then should write it this way:
+First you must add the nonce to the right directives in your policy:
 
 ```php
-    $button = ZahperComponent::make('mj-button')
-                ->href("{{ route('welcome', ['user_id' => \$id]) }}")
+// in a policy
+
+public function configure()
+  {
+      $this
+        ->addDirective(Directive::SCRIPT, 'self')
+        ->addDirective(Directive::STYLE, 'self')
+        ->addNonceForDirective(Directive::SCRIPT)
+        ->addNonceForDirective(Directive::STYLE)
+        ...
+}
 ```
 
-:exclamation: If you write it this way below, the user id will get cached. So you will send 500 emails, to 500 recipients, all of them with the same user id!
+Next you must add the nonce to the html:
 
-```php
-    $button = ZahperComponent::make('mj-button')
-                ->href(route('welcome', ['user_id' => \$id]))
+```
+{{-- in a view --}}
+<style nonce="{{ csp_nonce() }}">
+   ...
+</style>
+
+<script nonce="{{ csp_nonce() }}">
+   ...
+</script>
 ```
 
-## View in Browser
+There are few other options to use inline styles and scripts. Take a look at the [CSP docs on the Mozilla developer site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src) to know more.
 
-For each sent email, Zahper stores a copy in your storage folder with a distinct UUID.
-You can access this UUID only during the lifecycle of the Mailable. After that it's discarded and re-generated again.
+### Integration with Vite
 
-The UUID is accessed in your mailable via:
-
-```php
-    [...]
-    $uuid = $this->zhp_uuid;
-    [...]
-```
-
-You can also configure the route and action called directly in the zahper configuration file.
-
-Also, you have a helper that will generate the full url for you, so you can use it on your MJML code:
-```php
-    [...]
-        ->with('mj-button', 'View in Browser')
-            ->href("{{ zhp_url_view_in_browser(\$zhp_uuid) }}")
-            ->target('_blank');
-    [...]
-```
-
-## Unsubscribe
-
-Like the View in Browser, the UUID is also used for the unsubscribe. Zahper will have a default route that you can use, but the action doesn't do more than calling an event. So it's up to you to inject a listener.
-
-ZahpController@unsubscribe action:
+When building assets, Laravel's Vite plugin can [generate a nonce](https://laravel.com/docs/9.x/vite#content-security-policy-csp-nonce) that you can retrieve with `Vite::useCspNonce`.  You can use in your own `NonceGenerator`.
 
 ```php
-    public function unsubscribe(string $uuid)
+namespace App\Support;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Vite;
+
+class LaravelViteNonceGenerator implements NonceGenerator
+{
+    public function generate(): string
     {
-        event(new ZahperUnsubscribeEvent($uuid));
-
-        return response('Thank you, you have been unsubscribed!', 200);
+        return Vite::useCspNonce();
     }
+}
 ```
 
-## Current development status
-- [x] Finish core development.
-- [x] Finish testing in production environments.
-- [x] Close Beta release.
-- [ ] Additional testing in multi-parallelism using job queues.
-- [ ] Adding testing scenarios.
-- [x] Release for General Public use.
+Don't forget to specify the fully qualified class name of your `NonceGenerator` in the `nonce_generator` key of the `csp` config file.
+
+Alternatively, you can instruct Vite to use a specific value that it should use as nonce.
+
+```php
+namespace App\Support;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Vite;
+
+class RandomString implements NonceGenerator
+{
+    public function generate(): string
+    {
+        $myNonce = ''; // determine the value for `$myNonce` however you want
+
+        Vite::useCspNonce($myNonce);
+
+        return $myNonce;
+    }
+}
+```
+
+### Outputting a CSP Policy as a meta tag
+
+In rare circumstances, a large site may have so many external connections that the CSP header actually exceeds the max header size.
+Thankfully, the [CSP specification](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#using_the_html_meta_element) allows for outputting information as a meta tag in the head of a webpage.
+
+To support this use case, this package provides a `@cspMetaTag` blade directive that you may place in the `<head>` of your site.
+
+```blade
+<head>
+    @cspMetaTag(App\Services\Csp\Policies\MyCustomPolicy::class)
+</head>
+```
+
+You should be aware of the following implementation details when using the meta tag blade directive:
+- Note that you should manually pass the fully qualified class name of the policy we want to output a meta tag for.
+  The `csp.policy` and `csp.report_only_policy` config options have no effect here.
+- Because blade files don't have access to the `Response` object, the `shouldBeApplied` method will have no effect.
+  If you have declared the `@cspMetaTag` directive and the `csp.enabled` config option is set to true, the meta tag will be output regardless.
+- Any configuration (such as setting your policy to report only) should be done in the `configure` method of the policy,
+  rather than relying on settings in the `csp` config file. The `csp.report_uri` option will be respected, so there is no need to configure that manually.
+
+### Reporting CSP errors
+
+#### In the browser
+
+Instead of outright blocking all violations, you can put a policy in report only mode. In this case all requests will be made, but all violations will display in your favourite browser's console.
+
+To put a policy in report only mode just call `reportOnly()` in the `configure()` function of a report:
+
+```php
+public function configure()
+{
+    parent::configure();
+
+    $this->reportOnly();
+}
+```
+
+#### To an external url
+
+Any violations against the policy can be reported to a given url. You can set that url in the `report_uri` key of the `csp` config file. A great service that is specifically built for handling these violation reports is [http://report-uri.io/](http://report-uri.io/).
+
+#### Using multiple policies
+
+To test changes to your CSP policy you can specify a second policy in the `report_only_policy` in the `csp` config key. The policy specified in `policy` will be enforced, the one in `report_only_policy` will not. This is great for testing a new policy or changes to existing CSP policy without breaking anything.
+
+### Using whoops
+
+Laravel comes with [whoops](https://github.com/filp/whoops), an error handling framework that helps you debug your application with a pretty visualization of exceptions. Whoops uses inline scripts and styles because it can't make any assumptions about the environment it is being used in, so it won't work unless you allow `unsafe-inline` for scripts and styles.
+
+One approach to this problem is to check `config('app.debug')` when setting your policy. Unfortunately this bears the risk of forgetting to test your code with all CSP rules enabled and having your app break at deployment. Alternatively, you could allow `unsafe-inline` only on error pages by adding this to the `render` method of your exception handler (usually in `app/Exceptions/Handler.php`):
+```php
+$this->container->singleton(AppPolicy::class, function ($app) {
+    return new AppPolicy();
+});
+app(AppPolicy::class)->addDirective(Directive::SCRIPT, Keyword::UNSAFE_INLINE);
+app(AppPolicy::class)->addDirective(Directive::STYLE, Keyword::UNSAFE_INLINE);
+```
+where `AppPolicy` is the name of your CSP policy. This also works in every other situation to change the policy at runtime, in which case the singleton registration should be done in a service provider instead of the exception handler.
+
+Note that `unsafe-inline` only works if you're not also sending a nonce or a `strict-dynamic` directive, so to be able to use this workaround, you have to specify all your inline scripts' and styles' hashes in the CSP header.
+
+Another approach is to overwrite the `Spatie\Csp\Policies\Policy::shouldBeApplied()`-function in case Laravel responds with an error:
+
+```php
+namespace App\Services\Csp\Policies;
+
+use Illuminate\Http\Request;
+use Spatie\Csp;
+use Symfony\Component\HttpFoundation\Response;
+
+class MyCustomPolicy extends Csp\Policies\Policy
+{
+    public function configure()
+    {
+        // Add directives
+    }
+
+    public function shouldBeApplied(Request $request, Response $response): bool
+    {
+        if (config('app.debug') && ($response->isClientError() || $response->isServerError())) {
+            return false;
+        }
+
+        return parent::shouldBeApplied($request, $response);
+    }
+}
+```
+
+This approach completely deactivates the CSP and therefore also works if a strict CSP is used.
+
+### Testing
+
+You can run all the tests with:
+
+```bash
+composer test
+```
+
+### Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Contributing
 
-At the moment you don't need to contribute since Zahper is still in early-production release. You can already use it in your production website but still pay attention to my repository for issues that might impact you.
+Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
+
+### Security
+
+If you've found a bug regarding security please mail [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.
+
+## Credits
+
+- [Freek Van der Herten](https://github.com/freekmurze)
+- [Thomas Verhelst](https://github.com/TVke)
+- [All Contributors](../../contributors)
 
 ## License
 
-Zahper is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-
-## How to follow me
-
-You can follow my work on twitter, [@brunocfalcao](https://twitter.com/brunocfalcao). :)
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
