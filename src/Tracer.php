@@ -28,7 +28,7 @@ class Tracer
      * we don't evaluate the session data, we just overwrite
      * it each time we record a new visit instance.
      *
-     * @return Brunocfalcao\Tracer\Models\Visit
+     * @return Models\Visit
      */
     public function record()
     {
@@ -48,7 +48,7 @@ class Tracer
      * Computes a new visit instance, saves in session, and returns the
      * model instance.
      *
-     * @return \Brunocfalcao\Tracer\Models\Visit
+     * @return Visit
      */
     protected function newInstance()
     {
