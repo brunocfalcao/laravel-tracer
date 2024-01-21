@@ -41,9 +41,9 @@ class Referrer
     public function __construct()
     {
         $this->withPrefix('tracer:referrer')
-             ->persist(function () {
-                 return $this->newInstance();
-             });
+            ->persist(function () {
+                return $this->newInstance();
+            });
     }
 
     public static function make(...$args): self

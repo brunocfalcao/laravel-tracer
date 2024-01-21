@@ -41,7 +41,7 @@ class GetVisitGeoDataJob implements ShouldQueue
                 $response = Http::get('http://ip-api.com/json/'.
                                 $this->ip.
                                 '?fields=12108287')
-                        ->json();
+                    ->json();
 
                 if ($response['status'] == 'success') {
                     $visit->updateGeoData($response);
