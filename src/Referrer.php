@@ -81,7 +81,7 @@ class Referrer
      */
     public function newInstance()
     {
-        $result = new \stdClass();
+        $result = new \stdClass;
 
         $result->utm_source = null;
         $result->domain = null;

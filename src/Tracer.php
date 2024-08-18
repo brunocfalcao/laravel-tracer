@@ -52,7 +52,7 @@ class Tracer
      */
     protected function newInstance()
     {
-        $visit = new Visit();
+        $visit = new Visit;
         $visit->session_id = $this->sessionId();
         $visit->url = request()->fullUrl();
         $visit->path = request()->path();
@@ -64,7 +64,7 @@ class Tracer
             Agent::device());
 
         // Verify if the request is a bot request.
-        $crawlerDetect = new CrawlerDetect();
+        $crawlerDetect = new CrawlerDetect;
 
         // Check the user agent of the current visit source.
         $visit->is_bot = $crawlerDetect->isCrawler();
