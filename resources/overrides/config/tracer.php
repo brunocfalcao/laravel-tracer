@@ -35,7 +35,7 @@ return [
 
     'goals' => [
 
-        //Brunocfalcao\Tracer\Goals\NthVisit::class,
+        // Brunocfalcao\Tracer\Goals\NthVisit::class,
 
         /*
          * 1st-time: A visitor that visited, once, the website
